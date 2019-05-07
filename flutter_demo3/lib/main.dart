@@ -122,15 +122,28 @@ class _MyHomePageState extends State<MyHomePage> {
 //                        maintainState: true,
 //                        fullscreenDialog: false));
 
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) {
-                    return new RandomWordsWidget();
-                  }),
-                );
+//                Navigator.push(
+//                  context,
+//                  new MaterialPageRoute(builder: (context) {
+//                    return new RandomWordsWidget();
+//                  }),
+//                );
+
+//                Navigator.push(context,
+//                    new MaterialPageRoute(builder: (context) {
+//                  return ButtonWidget();
+//                }));
+
+                Navigator.push(context,
+                    new MaterialPageRoute(builder: (context) {
+                  return MessageForm();
+                }));
               },
             ),
-            new DecoratedBox(decoration: new BoxDecoration(image:new DecorationImage(image: new AssetImage('images/ic_launcher.png') ))),
+            new DecoratedBox(
+                decoration: new BoxDecoration(
+                    image: new DecorationImage(
+                        image: new AssetImage('images/ic_launcher.png')))),
           ],
         ),
       ),
@@ -169,7 +182,6 @@ class TipRoute extends StatelessWidget {
       ),
       body: Center(
         child: Text(tip),
-
       ),
     );
   }
@@ -177,7 +189,7 @@ class TipRoute extends StatelessWidget {
   TipRoute(this.tip);
 }
 
-class DebugRoute extends StatelessWidget{
+class DebugRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("this is print");
@@ -188,14 +200,13 @@ class DebugRoute extends StatelessWidget{
         child: new FlatButton(
           onPressed: () {
             debugDumpApp();
-           // debugDumpRenderTree();
+            // debugDumpRenderTree();
           },
           child: new Text('Dump App'),
         ),
       ),
     );
   }
-
 }
 
 class RandomWordsWidget extends StatelessWidget {
@@ -207,6 +218,299 @@ class RandomWordsWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: new Text(wordPair.toString()),
+    );
+  }
+}
+
+class BarWidget extends StatefulWidget {
+  @override
+  State createState() {
+    return _BarWidgetState();
+  }
+}
+
+class _BarWidgetState extends State<BarWidget> {
+  var i = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Text('i = $i'),
+        RaisedButton(
+          onPressed: () {
+            setState(() {
+              ++i;
+            });
+          },
+          child: Text('click'),
+        )
+      ],
+    );
+  }
+}
+
+class TextWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Text(
+      "this is Text Widget",
+      style: TextStyle(
+          color: Colors.blue, fontSize: 16.0, fontWeight: FontWeight.bold),
+    );
+  }
+}
+
+class ButtonWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var flatButton = FlatButton(
+      onPressed: () => print("flat button pressed!"),
+      child: Text("Button"),
+    );
+    var raiseButton = RaisedButton(
+      onPressed: () {
+        print("raise button pressed!");
+      },
+      child: Text("Button"),
+    );
+    return raiseButton;
+  }
+}
+
+class MessageForm extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _MessageFormState();
+  }
+}
+
+class _MessageFormState extends State<MessageForm> {
+  var editController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: TextField(
+              controller: editController,
+            ),
+          ),
+          RaisedButton(
+              child: Text("click"),
+              onPressed: () {
+                showDialog(
+                    // 第一个 context 是参数名，第二个 context 是 State 的成员变量
+                    context: context,
+                    builder: (_) {
+                      return AlertDialog(
+                        // dialog 的内容
+                        content: Text(editController.text),
+                        // actions 设置 dialog 的按钮
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('OK'),
+                            // 用户点击按钮后，关闭弹框
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return RowWidget();
+                              }));
+                            },
+                          )
+                        ],
+                      );
+                    });
+              })
+        ],
+      ),
+    ));
+
+//    return Scaffold(
+//        body: Center(
+//            child: Row(
+//      children: <Widget>[
+//        Expanded(
+//          child: TextField(
+//            controller: editController,
+//          ),
+//        ),
+//        RaisedButton(
+//          child: Text("click"),
+//          onPressed: () => print('text inputted: ${editController.text}'),
+//        )
+//      ],
+//    )));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    editController.dispose();
+  }
+}
+
+class RowWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      body: Center(
+        child: Row(
+          children: <Widget>[
+            Text('text1'),
+            Text('text2'),
+            Text('text3'),
+            Text('text4'),
+            FlatButton(
+              child: Text("Button"),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return StackWidget();
+                }));
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class StackWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      body: Center(
+        child: Stack(
+          // Aligment 的取值范围为 [-1, 1]，Stack 中心为 (0, 0)，
+          // 这里设置为 (-0.5, -0.5) 后，可以让文本对齐到 Container 的 1/4 处
+          alignment: const Alignment(-1, -1),
+          children: <Widget>[
+            Container(
+              width: 200.0,
+              height: 200.0,
+              color: Colors.blue,
+            ),
+            Text("text1"),
+            Text("text2 3 4 5 6 7 8 9"),
+            RaisedButton(
+              child: Text("RaisedButton"),
+              onPressed: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ImageWidget();
+                  })),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ImageWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      body: Center(
+        child: Container(
+          child: GestureDetector(
+            child: new Image.network(
+              'https://img.mukewang.com/5c78a32e09afc8c106400220.jpg',
+              scale: 2.0,
+              repeat: ImageRepeat.repeatY,
+              fit: BoxFit.cover,
+            ),
+            onTap: () =>
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ImageListView();
+                })),
+          ),
+          width: 400.0,
+          height: 300.0,
+          color: Colors.lightBlue,
+        ),
+      ),
+    );
+  }
+}
+
+class ImageListView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return ListView(scrollDirection: Axis.vertical, children: <Widget>[
+      GestureDetector(
+        child: new Image.network(
+            'https://img.mukewang.com/5c78a32e09afc8c106400220.jpg',
+            width: 300,
+            height: 200,
+            fit: BoxFit.fill),
+        onTap: () =>
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return TileListView();
+            })),
+      ),
+      new Image.network('https://img.mukewang.com/5c78a32e09afc8c106400220.jpg',
+          width: 300, height: 200, fit: BoxFit.fill),
+      new Image.network('https://img.mukewang.com/5c78a32e09afc8c106400220.jpg',
+          width: 300, height: 200, fit: BoxFit.fill),
+      new Image.network('https://img.mukewang.com/5c78a32e09afc8c106400220.jpg',
+          width: 300, height: 200, fit: BoxFit.fill),
+      new Image.network('https://img.mukewang.com/5c78a32e09afc8c106400220.jpg',
+          width: 300, height: 200, fit: BoxFit.fill),
+      new Image.network('https://img.mukewang.com/5c78a32e09afc8c106400220.jpg',
+          width: 300, height: 200, fit: BoxFit.fill),
+      new Image.network('https://img.mukewang.com/5c78a32e09afc8c106400220.jpg',
+          width: 300, height: 200, fit: BoxFit.fill)
+    ]);
+  }
+}
+
+class TileListView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      body: Center(
+        child: ListView(scrollDirection: Axis.vertical, children: <Widget>[
+          GestureDetector(
+            child: new ListTile(
+                leading: new Icon(Icons.border_right),
+                title: new Text('border_right')),
+            onTap: () =>
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return LocalImage();
+                })),
+          ),
+          new ListTile(
+              leading: new Icon(Icons.access_alarm),
+              title: new Text('access_alarm')),
+          new ListTile(
+              leading: new Icon(Icons.access_time),
+              title: new Text('access_time'))
+        ]),
+      ),
+    );
+  }
+}
+
+class LocalImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      body: Center(
+        child: Image.asset("images/ic_launcher.png"),
+      ),
     );
   }
 }
