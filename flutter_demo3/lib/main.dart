@@ -1,6 +1,7 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_demo3/home.dart';
 
 void main() => runApp(MyApp());
 
@@ -509,7 +510,49 @@ class LocalImage extends StatelessWidget {
     // TODO: implement build
     return Scaffold(
       body: Center(
+          child: GestureDetector(
         child: Image.asset("images/ic_launcher.png"),
+        onTap: () =>
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return IconWidget();
+            })),
+      )),
+    );
+  }
+}
+
+class IconWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(32.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Icon(Icons.access_alarm, color: Colors.blue[500]),
+                    onTap: () => Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return HomePage();
+                        })),
+                  ),
+                  Text("icon1")
+                ],
+              ),
+              Column(
+                children: <Widget>[Icon(Icons.access_alarm), Text("icon2")],
+              ),
+              Column(
+                children: <Widget>[Icon(Icons.access_alarm), Text("icon3")],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
