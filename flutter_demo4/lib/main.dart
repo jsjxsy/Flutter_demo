@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo4/AnimationPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -54,6 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      Navigator.push(context, MaterialPageRoute(builder: (context){
+        return AnimationPage();
+      }));
     });
   }
 
